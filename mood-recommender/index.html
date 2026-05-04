@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Recommender</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <button id="theme-toggle" class="icon-btn">🌙</button>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <!-- Mood Selection View -->
+        <section id="mood-selection" class="view active">
+            <header>
+                <h1>How are you feeling today?</h1>
+                <p>Select your mood to get personalized recommendations</p>
+            </header>
+            
+            <div class="mood-grid">
+                <button class="mood-card" data-mood="lazy">
+                    <span class="emoji">😴</span>
+                    <span class="label">Lazy</span>
+                </button>
+                <button class="mood-card" data-mood="angry">
+                    <span class="emoji">😤</span>
+                    <span class="label">Angry</span>
+                </button>
+                <button class="mood-card" data-mood="focus">
+                    <span class="emoji">📚</span>
+                    <span class="label">Focus</span>
+                </button>
+                <button class="mood-card" data-mood="sad">
+                    <span class="emoji">😔</span>
+                    <span class="label">Sad</span>
+                </button>
+                <button class="mood-card" data-mood="happy">
+                    <span class="emoji">😄</span>
+                    <span class="label">Happy</span>
+                </button>
+                <button class="mood-card add-mood-btn" id="add-mood-btn">
+                    <span class="emoji">➕</span>
+                    <span class="label">Add Mood</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Results View -->
+        <section id="results-view" class="view">
+            <header class="results-header">
+                <button id="back-btn" class="back-btn">← Back</button>
+                <h2 id="current-mood-title">Suggestions for you</h2>
+            </header>
+
+            <div class="results-grid">
+                <!-- Music Section -->
+                <div class="result-section card">
+                    <h3>🎵 Music</h3>
+                    <ul id="music-list" class="suggestion-list"></ul>
+                </div>
+
+                <!-- Activities Section -->
+                <div class="result-section card">
+                    <h3>⚡ Activities</h3>
+                    <ul id="activities-list" class="suggestion-list"></ul>
+                </div>
+
+                <!-- Tips Section -->
+                <div class="result-section card">
+                    <h3>📚 Study Tips</h3>
+                    <ul id="tips-list" class="suggestion-list"></ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Focus Timer Widget -->
+    <div class="timer-widget">
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="timer-controls">
+            <button id="play-pause-btn" title="Start/Pause">▶️</button>
+            <button id="reset-btn" title="Reset">🔄</button>
+        </div>
+    </div>
+
+    <!-- Custom Mood Modal -->
+    <div id="custom-mood-modal" class="modal-overlay">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2>Create Custom Mood</h2>
+                <button id="close-modal-btn" class="icon-btn">&times;</button>
+            </div>
+            <form id="custom-mood-form">
+                <div class="input-group row-group">
+                    <div style="flex: 1;">
+                        <label for="cm-name">Mood Name</label>
+                        <input type="text" id="cm-name" required placeholder="e.g. Energetic">
+                    </div>
+                    <div style="width: 100px;">
+                        <label for="cm-emoji">Emoji</label>
+                        <input type="text" id="cm-emoji" required placeholder="⚡" maxlength="2">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="cm-music">Music Suggestions (comma separated)</label>
+                    <input type="text" id="cm-music" required placeholder="Rock, Pop, EDM">
+                </div>
+                
+                <div class="input-group">
+                    <label for="cm-activities">Activities (comma separated)</label>
+                    <input type="text" id="cm-activities" required placeholder="Run, Jump, Dance">
+                </div>
+                
+                <div class="input-group">
+                    <label for="cm-tips">Tips (comma separated)</label>
+                    <input type="text" id="cm-tips" required placeholder="Stay hydrated, Take breaks">
+                </div>
+                
+                <div class="input-group">
+                    <label for="cm-color">Theme Color</label>
+                    <select id="cm-color" required>
+                        <option value="theme-lazy">Purple</option>
+                        <option value="theme-angry">Red</option>
+                        <option value="theme-focus">Green</option>
+                        <option value="theme-sad">Blue</option>
+                        <option value="theme-happy">Yellow</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Save Mood</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Auth observer requires auth.js -->
+    <script type="module" src="js/auth.js"></script>
+    <!-- App Logic -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
