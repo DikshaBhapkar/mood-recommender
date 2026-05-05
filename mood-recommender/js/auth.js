@@ -1,9 +1,9 @@
 import { auth } from './firebase.js';
-import { 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut, 
-    onAuthStateChanged 
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // DOM Elements
@@ -14,19 +14,19 @@ const authErrorMsg = document.getElementById('auth-error-msg');
 
 // Helper to show errors
 const showError = (message) => {
-    if(authErrorMsg) {
+    if (authErrorMsg) {
         authErrorMsg.textContent = message;
         authErrorMsg.style.display = 'block';
     }
 };
 
 // Signup Logic
-if(signupForm) {
+if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        
+
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             window.location.href = 'index.html'; // Redirect to home
@@ -37,12 +37,12 @@ if(signupForm) {
 }
 
 // Login Logic
-if(loginForm) {
+if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        
+
         try {
             await signInWithEmailAndPassword(auth, email, password);
             window.location.href = 'index.html'; // Redirect to home
@@ -53,7 +53,7 @@ if(loginForm) {
 }
 
 // Logout Logic
-if(logoutBtn) {
+if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
         try {
             await signOut(auth);
@@ -67,14 +67,14 @@ if(logoutBtn) {
 // Auth State Observer - Redirect unauthenticated users
 onAuthStateChanged(auth, (user) => {
     const isAuthPage = window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html');
-    
+
     if (user) {
         // User is signed in
         if (isAuthPage) {
             window.location.href = 'index.html'; // Redirect authenticated users away from auth pages
         }
         // Expose user ID globally for app.js to use
-        window.currentUserId = user.uid; 
+        window.currentUserId = user.uid;
     } else {
         // No user is signed in
         if (!isAuthPage) {

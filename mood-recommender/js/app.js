@@ -1,4 +1,4 @@
-import { db, auth } from './firebase.js';
+import { db, auth } from './mood-recommender/js/firebase.js';
 import { collection, addDoc, serverTimestamp, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -153,7 +153,7 @@ function handleMoodSelect(event) {
 
     // Switch views with smooth transition
     moodSelectionView.classList.remove('active');
-    
+
     // Save to Firestore if user is logged in
     if (window.currentUserId) {
         try {
@@ -171,15 +171,15 @@ function handleMoodSelect(event) {
             console.error("Error executing Firestore request: ", e);
         }
     }
-    
+
     // Small delay to allow the CSS transition (opacity/transform) to start
     setTimeout(() => {
         moodSelectionView.style.display = 'none';
         resultsView.style.display = 'block';
-        
+
         // Trigger reflow for transition
         void resultsView.offsetWidth;
-        
+
         resultsView.classList.add('active');
     }, 400); // Matches the 0.4s transition in CSS
 }
@@ -187,13 +187,13 @@ function handleMoodSelect(event) {
 // Function to go back to mood selection
 function handleBack() {
     resultsView.classList.remove('active');
-    
+
     setTimeout(() => {
         resultsView.style.display = 'none';
         moodSelectionView.style.display = 'block';
-        
+
         void moodSelectionView.offsetWidth;
-        
+
         moodSelectionView.classList.add('active');
     }, 400);
 }
@@ -237,35 +237,35 @@ if (closeModalBtn) {
 if (customMoodForm) {
     customMoodForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const name = document.getElementById('cm-name').value;
         const emoji = document.getElementById('cm-emoji').value;
         const musicStr = document.getElementById('cm-music').value;
         const activitiesStr = document.getElementById('cm-activities').value;
         const tipsStr = document.getElementById('cm-tips').value;
         const colorClass = document.getElementById('cm-color').value;
-        
+
         const moodKey = name.toLowerCase().replace(/\s+/g, '-');
-        
+
         const newMoodData = {
             music: musicStr.split(',').map(s => s.trim()).filter(s => s),
             activities: activitiesStr.split(',').map(s => s.trim()).filter(s => s),
             tips: tipsStr.split(',').map(s => s.trim()).filter(s => s),
             colorClass: colorClass
         };
-        
+
         // Add to local data
         moodData[moodKey] = newMoodData;
-        
+
         // Add to UI
         const newCard = createMoodCard(moodKey, emoji, name);
         const moodGrid = document.querySelector('.mood-grid');
         moodGrid.insertBefore(newCard, addMoodBtn);
-        
+
         // Close modal and reset form
         customMoodModal.classList.remove('active');
         customMoodForm.reset();
-        
+
         // Save to Firestore
         if (window.currentUserId) {
             try {
@@ -291,9 +291,9 @@ onAuthStateChanged(auth, async (user) => {
         try {
             const q = query(collection(db, "customMoods"), where("userId", "==", user.uid));
             const querySnapshot = await getDocs(q);
-            
+
             const moodGrid = document.querySelector('.mood-grid');
-            
+
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 // Add to local data
@@ -320,9 +320,9 @@ const themeToggle = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme');
 if (currentTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    if(themeToggle) themeToggle.textContent = '☀️';
+    if (themeToggle) themeToggle.textContent = '☀️';
 } else {
-    if(themeToggle) themeToggle.textContent = '🌙';
+    if (themeToggle) themeToggle.textContent = '🌙';
 }
 
 if (themeToggle) {
@@ -382,7 +382,7 @@ function resetTimer() {
     clearInterval(timerInterval);
     timeLeft = 25 * 60;
     isTimerRunning = false;
-    if(playPauseBtn) playPauseBtn.textContent = '▶️';
+    if (playPauseBtn) playPauseBtn.textContent = '▶️';
     updateTimerDisplay();
 }
 
