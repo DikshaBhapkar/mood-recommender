@@ -1,4 +1,4 @@
-import { db, auth } from './mood-recommender/js/firebase.js';
+import { db, auth } from './firebase.js';
 import { collection, addDoc, serverTimestamp, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
